@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TheDormHotel - Student Accommodation Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header with user info and logout -->
+        <div class="header">
+            <h1>🏠 TheDormHotel</h1>
+            
+            <!-- Show when user is logged in -->
+            <div id="userInfo" style="display: none;">
+                <span id="welcomeText"></span>
+                <button id="logoutBtn" style="margin-left: 15px; background: #f44336; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Logout</button>
+                <a href="admin.html" id="adminLink" style="margin-left: 10px; display: none;">Admin Panel</a>
+            </div>
+            
+            <!-- Show when user is NOT logged in -->
+            <div id="authLinks" style="display: block;">
+                <a href="login.html" style="margin-right: 10px; color: #4CAF50; text-decoration: none;">Login</a>
+                <a href="register.html" style="color: #2196F3; text-decoration: none;">Register</a>
+            </div>
+        </div>
+        
+        <!-- Booking Form -->
+        <div class="booking-form">
+            <h2>🎓 Reserve Your Dorm Room</h2>
+            <form id="bookingForm">
+                <!-- Step 1: Booking Details -->
+                <div id="step1" class="booking-step">
+                    <h3>📋 Step 1: Booking Details</h3>
+                    <input type="text" id="name" placeholder="👤 Your Full Name" required>
+                    <input type="email" id="email" placeholder="📧 Student Email Address" required>
+                    <input type="date" id="checkin" required>
+                    <input type="date" id="checkout" required>
+                    <select id="roomType" required>
+                        <option value="">🏠 Select Room Type</option>
+                        <option value="single" data-price="45">🛏️ Single Room - $45/night</option>
+                        <option value="double" data-price="65">🛏️🛏️ Double Room - $65/night</option>
+                        <option value="suite" data-price="95">👑 Premium Suite - $95/night</option>
+                    </select>
+                    <button type="button" id="nextToPayment" class="btn-next">💳 Proceed to Payment</button>
+                </div>
+
+                <!-- Step 2: Payment Summary -->
+                <div id="step2" class="booking-step" style="display: none;">
+                    <h3>💰 Step 2: Payment Summary</h3>
+                    <div class="payment-summary">
+                        <div class="summary-row">
+                            <span>Room Type:</span>
+                            <span id="summaryRoomType">-</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Check-in:</span>
+                            <span id="summaryCheckin">-</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Check-out:</span>
+                            <span id="summaryCheckout">-</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Number of nights:</span>
+                            <span id="summaryNights">-</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Rate per night:</span>
+                            <span id="summaryRate">-</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span><strong>Total Amount:</strong></span>
+                            <span id="summaryTotal"><strong>$0</strong></span>
+                        </div>
+                    </div>
+                    <button type="button" id="backToBooking" class="btn-back">← Back to Details</button>
+                    <button type="button" id="proceedToPayment" class="btn-next">Choose Payment Method →</button>
+                </div>
+
+                <!-- Step 3: Payment Method -->
+                <div id="step3" class="booking-step" style="display: none;">
+                    <h3>💳 Step 3: Payment Method</h3>
+                    <div class="payment-methods">
+                        <div class="payment-option" data-method="card">
+                            <input type="radio" id="payCard" name="paymentMethod" value="card" checked>
+                            <label for="payCard">
+                                <span class="payment-icon">💳</span>
+                                Credit/Debit Card
+                            </label>
+                        </div>
+                        <div class="payment-option" data-method="paypal">
+                            <input type="radio" id="payPaypal" name="paymentMethod" value="paypal">
+                            <label for="payPaypal">
+                                <span class="payment-icon">🅿️</span>
+                                PayPal (Demo)
+                            </label>
+                        </div>
+                        <div class="payment-option" data-method="applepay">
+                            <input type="radio" id="payApple" name="paymentMethod" value="applepay">
+                            <label for="payApple">
+                                <span class="payment-icon">🍎</span>
+                                Apple Pay (Demo)
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Credit Card Form -->
+                    <div id="cardForm" class="payment-form">
+                        <h4>💳 Card Information (Demo Only)</h4>
+                        <div class="demo-notice">
+                            <p>⚠️ This is a demo payment form. No real charges will be made.</p>
+                        </div>
+                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" class="demo-input">
+                        <div class="card-row">
+                            <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" class="demo-input">
+                            <input type="text" id="cardCVV" placeholder="123" maxlength="3" class="demo-input">
+                        </div>
+                        <input type="text" id="cardName" placeholder="John Doe" class="demo-input">
+                    </div>
+
+                    <!-- Alternative Payment Forms -->
+                    <div id="paypalForm" class="payment-form" style="display: none;">
+                        <h4>🅿️ PayPal Payment (Demo)</h4>
+                        <div class="demo-notice">
+                            <p>⚠️ Demo PayPal integration - No real payment processing</p>
+                        </div>
+                        <div class="fake-paypal-button">
+                            <span>Continue with PayPal</span>
+                        </div>
+                    </div>
+
+                    <div id="applePayForm" class="payment-form" style="display: none;">
+                        <h4>🍎 Apple Pay (Demo)</h4>
+                        <div class="demo-notice">
+                            <p>⚠️ Demo Apple Pay - Simulated payment only</p>
+                        </div>
+                        <div class="fake-applepay-button">
+                            <span>Pay with Apple Pay</span>
+                        </div>
+                    </div>
+
+                    <button type="button" id="backToSummary" class="btn-back">← Back to Summary</button>
+                    <button type="submit" id="processPayment" class="btn-pay">🔒 Process Payment (Demo)</button>
+                </div>
+
+                <!-- Step 4: Processing -->
+                <div id="step4" class="booking-step" style="display: none;">
+                    <h3>⏳ Processing Payment...</h3>
+                    <div class="processing-animation">
+                        <div class="spinner"></div>
+                        <p>Please wait while we process your payment...</p>
+                        <div class="processing-steps">
+                            <div class="processing-step active" id="stepVerifying">
+                                <span class="step-icon">🔍</span>
+                                <span>Verifying payment details</span>
+                            </div>
+                            <div class="processing-step" id="stepProcessing">
+                                <span class="step-icon">💳</span>
+                                <span>Processing payment</span>
+                            </div>
+                            <div class="processing-step" id="stepConfirming">
+                                <span class="step-icon">✅</span>
+                                <span>Confirming booking</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Success -->
+                <div id="step5" class="booking-step" style="display: none;">
+                    <h3>🎉 Payment Successful!</h3>
+                    <div class="success-message">
+                        <div class="success-icon">✅</div>
+                        <h4>Booking Confirmed!</h4>
+                        <p>Your dorm room has been successfully reserved.</p>
+                        
+                        <div class="confirmation-details">
+                            <h5>📋 Booking Confirmation</h5>
+                            <div class="confirmation-row">
+                                <span>Confirmation Number:</span>
+                                <span id="confirmationNumber" class="highlight">-</span>
+                            </div>
+                            <div class="confirmation-row">
+                                <span>Transaction ID:</span>
+                                <span id="transactionId" class="highlight">-</span>
+                            </div>
+                            <div class="confirmation-row">
+                                <span>Amount Paid:</span>
+                                <span id="amountPaid" class="highlight">-</span>
+                            </div>
+                        </div>
+                        
+                        <button type="button" id="newBooking" class="btn-new">📝 Make Another Booking</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Bookings List -->
+        <div class="bookings-section">
+            <h2>📋 Your Room Reservations</h2>
+            <div id="bookingsList">
+                <p>Loading your reservations...</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

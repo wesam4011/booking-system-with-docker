@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TheDormHotel - Student Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="auth-container">
+    <h1>🏠 Welcome to TheDormHotel</h1>
+    
+    <!-- Quick Admin Login Section -->
+    <div class="admin-quick-login">
+      <h3>🔧 Admin Access</h3>
+      <p><strong>Email:</strong> admin@thedormhotel.com</p>
+      <p><strong>Password:</strong> admin123</p>
+      <button type="button" id="quickAdminBtn">
+        🔑 Login as Admin
+      </button>
+    </div>
+    
+    <!-- Login Form -->
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="📧 Student Email" required>
+      <input type="password" id="password" placeholder="🔒 Password" required>
+      <button type="submit">🎓 Access My Account</button>
+    </form>
+    
+    <p style="text-align: center; margin-top: 20px; color: #6c757d;">
+      New student? <a href="/register.html">Create your account here</a>
+    </p>
+  </div>
+  
+  <script src="auth.js"></script>
+</body>
+</html>
